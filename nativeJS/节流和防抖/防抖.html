@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <input type="text" id="inp">
+</body>
+<script>
+  //没有加防抖函数；触发很频繁
+  function inpText(content) {
+    console.log('output: -----------------------------------');
+    console.log('output: inpText -> content', content);
+    console.log('output: -----------------------------------');
+  }
+  let inp = document.getElementById('inp');
+
+  // inp.addEventListener('keyup', function (e) {
+  //   inpText(e.target.value);
+  // })
+
+  //添加防抖函数
+  function dedounce(fn, delay) {
+    return function () {
+      let that = this;
+      let args = [...arguments];
+      clearTimeout(fn.timer);
+      fn.timer = setTimeout(function () {
+        fn.call(that, args);
+      }, delay)
+    }
+  }
+  inp.addEventListener('keyup', function (e) {
+    dedounce(inpText, 500)(e.target.value);
+  })
+
+</script>
+
+</html>

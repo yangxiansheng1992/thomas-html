@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>picture-图片标签</title>
+    <style>
+        img{
+            width: 300px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <picture>
+        <source srcset="./img/down1.jpg" media="(min-width: 600px)">
+        <img src="./img/down.jpg" alt="">
+    </picture>
+
+    <!-- 将满足条件的资源路径，渲染到img上，最终呈现的还是img标签，只是根据条件，改变了资源路径 -->
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+  <script>
+    //先判断是否支持动画  计时器
+    window.requestAnimationFrame = (function () {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        function (callback) {
+          //调用开始函数  10毫秒
+          window.setTimeout(callback, 10);
+        }
+    })();
+    //获取canvas元素
+    var canvas = document.getElementById("canvas");
+    console.log(canvas);
+    ctx = canvas.getContext("2d");
+    cw = window.innerWidth;
+    ch = window.innerHeight;
+
+    //定义烟花数组
+    fireworks = [];
+    //定义爆炸的烟花屑
+    particles = [];
+    hue = 120;
+    /* 初始化色调*/
+    timerTotal = 10;
+    /*每隔20下释放一次烟花*/
+    timerTick = 0;
+    canvas.width = cw;
+    canvas.height = ch;
+    //生成min max 之间的随机数
+    function random(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+    //计算点sx sy 到 tx ty 之间的距离
+    function caculateDistance(sx, sy, tx, ty) {
+      var xDistance = sx - tx,
+        yDistance = sy - ty;
+      return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
+    }
+
+    //烟花对象sx sy初始位置  tx ty目标位置
+    function Firework(sx, sy, tx, ty) {
+      this.x = sx;
+      this.y = sy;
+      this.sx = sx;
+      this.sy = sy;
+      this.tx = tx;
+      this.ty = ty;
+      //计算初始位置到目标位置之间的距离
+      this.distanceToTarget = caculateDistance(sx, sy, tx, ty);
+      //以运行距离
+      this.distanceTraveled = 0;
+      //定义变量生运动轨迹
+      this.coordinates = [];
+      this.coordinatesCount = 3;
+      while (this.coordinatesCount--) {
+        this.coordinates.push([this.x, this.y]);
+      }
+      //初始位置到目标位置的角度
+      this.angle = Math.atan2(ty - sy, tx - sx);
+      this.speed = 2;//初始速度
+      this.acceleration = 1.05;//加速度
+      this.brightness = random(50, 70); //明度
+      this.targetRadius = 5; //目标位置标示圆圈的初始半径
+    }
+
+    //开始更新烟花的位置
+    Firework.prototype.update = function (index) {
+      this.coordinates.pop();
+      this.coordinates.push([this.x, this.y]);
+      //让目标圆圈动起来
+      if (this.targetRadius < 8) {
+        this.targetRadius += 0.3;
+      }
+      else {
+        this.targetRadius = 1;
+      }
+      //根据加速度来确定速度
+      this.speed *= this.acceleration;
+      //计算水平方向速度
+      var vx = Math.cos(this.angle) * this.speed;
+      var vy = Math.sin(this.angle) * this.speed;
+      //重新计算烟花运行的距离
+      this.distanceTraveled = caculateDistance(this.sx, this.sy, this.x + vx, this.y + vy);
+      //如果烟花运行距离大于或等于初始位置到目标位置之间的距离，生成新烟花并移除当前烟花，否则更新烟花位置
+      if (this.distanceTraveled >= this.distanceToTarget) {
+        createParticles(this.tx, this.ty);
+        fireworks.splice(index, 1);
+      }
+      else {
+        this.x += vx;
+        this.y += vy;
+      }
+    }
+
+    //烟花运行轨迹
+    Firework.prototype.draw = function () {
+      ctx.beginPath();
+      ctx.moveTo(this.coordinates[this.coordinates.length - 1][0], this.coordinates[this.coordinates.length - 1][1]);
+      ctx.lineTo(this.x, this.y);
+      ctx.strokeStyle = 'hsl(' + hue + ',100%,' + this.brightness + '%)';
+      ctx.stroke();
+      //画出目标位置的小圆圈
+      ctx.beginPath();
+      ctx.arc(this.tx, this.ty, this.targetRadius, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+
+    //烟花爆炸
+    function Particle(x, y) {
+      this.x = x;
+      this.y = y;
+      this.coordinates = [];
+      this.coordinatesCount = 10;
+      while (this.coordinatesCount--) {
+        this.coordinates.push([this.x, this.y]);
+      }
+      //生成任意方向的碎屑
+      this.angle = random(0, 2 * Math.PI);
+      this.speed = random(1, 10);//随机速度
+      this.friction = 0.95;//摩擦力
+      this.gravity = 1;//重力
+      this.hue = random(hue - 20, hue + 20);//生成色彩相近的碎屑
+      this.brightness = random(50, 80);//随机透明
+      this.alpha = 1;//初始化透明度
+      this.decay = random(0.015, 0.03);//碎屑消失时间
+    }
+
+    Particle.prototype.update = function (index) {
+      this.coordinates.pop();
+      this.coordinates.unshift([this.x, this.y]);
+      this.speed *= this.friction;
+      this.x += Math.cos(this.angle) * this.speed;
+      this.y += Math.sin(this.angle) * this.speed + this.gravity;
+      this.alpha -= this.decay;
+      if (this.alpha <= this.decay) {
+        particles.splice(index, 1);
+      }
+    }
+
+    //画碎屑轨迹
+    Particle.prototype.draw = function () {
+      ctx.beginPath();
+      ctx.moveTo(this.coordinates[this.coordinates.length - 1][0], this.coordinates[this.coordinates.length - 1][1]);
+      ctx.lineTo(this.x, this.y);
+      ctx.strokeStyle = 'hsla(' + this.hue + ',100%,' + this.brightness + '%,' + this.alpha + ')';
+      ctx.stroke();
+    }
+
+    function createParticles(x, y) {
+      //生成30个烟花碎屑
+      var particleCount = 300;
+      while (particleCount--) {
+        particles.push(new Particle(x, y));
+      }
+    }
+
+    function loop() {
+      requestAnimationFrame(loop);
+      hue += 0.5;
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+      ctx.fillRect(0, 0, cw, ch);
+      ctx.globalCompositeOperation = 'lighter';
+      var i = fireworks.length;
+      while (i--) {
+        fireworks[i].draw();
+        fireworks[i].update(i);
+      }
+      var i = particles.length;
+      while (i--) {
+        particles[i].draw();
+        particles[i].update(i);
+      }
+      if (timerTick >= timerTotal) {
+        fireworks.push(new Firework(cw / 2, ch, random(0, cw), random(0, ch / 2)));
+        timerTick = 0;
+      } else {
+        timerTick++;
+      }
+    }
+    window.onload = loop();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>浅析setTimeout与Promise</title>
+</head>
+
+<body>
+
+</body>
+<script>
+  var p1 = new Promise(function (resolve, reject) {
+    resolve(1);
+  })
+
+  setTimeout(function () {
+    console.log("will be executed at the top of the next Event Loop");
+  }, 0)
+
+  p1.then(function (value) {
+    console.log("p1 fulfilled");
+  })
+
+  setTimeout(function () {
+    console.log("will be executed at the bottom of the next Event Loop");
+  }, 0)
+</script>
+
+</html>

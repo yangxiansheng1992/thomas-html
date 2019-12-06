@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <!-- 快速生成 -->
+  <!-- img[src='img/$.jpg']*3 -->
+</body>
+<script>
+  /*
+    var a = 10;
+    function foo() {
+      console.log(a); // ??
+      let a = 20;
+    }
+    foo();
+    会报错
+    */
+
+
+  var array = [];
+  for (let i = 0; i < 3; i++) {
+    array.push(() => {
+      // console.log(i);
+      return i
+    });
+  }
+  var newArray = array.map(el => {
+    console.log(el);
+    return el()
+  });
+  console.log(newArray);
+
+
+</script>
+
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自定义promise</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /*
+        版本一，
+    */
+    /*
+    function MyPromise(fn){
+        function resolve(data){
+            console.log(data)
+        }
+        function reject(err){
+            console.log(err)
+        }
+        fn(resolve,reject);
+    }
+    new MyPromise((resolve,reject)=>{
+        setTimeout(()=>{
+            resolve('两秒后的结果')
+        },2000)
+    })
+    */
+    // ==============================>
+    /*
+        版本二
+        上面的代码没办法知道任务执行到了哪一步，是成功还是失败的；
+        所以增加了三个状态来表示Promise的异步任务进行到何种程度了
+
+        pending：执行中
+        resolved：已完成
+        rejected：以失败
+        通过观察用户调用的是resolve还是reject可以判断当前的Promise的状态；
+        那么会有三种状态；
+        1.在用户调用resolve或reject之前的状态是pending；
+        2.在用户调用resolve时，状态将变为resloved；
+        3.在用户调用reject时，状态将变为rejected；
+        下面进行代码改造，定义三个常量表示状态以及一个变量state用来储存当前状态；
+        并且当resolve被调用时将state修改为resolved
+
+    */
+    /*
+    const PEDNING="pending";//执行状态
+    const RESOLVED='resolved';//以完成；
+    const REJECTED='rejected';//以失败
+
+    function MyPromise(fn){
+        const that=this
+        //初始状态为执行中,pending
+        this.state=PEDNING;
+
+        function resolve(value){
+            console.log(value)
+            that.state=RESOLVED;
+        }
+        function reject(err){
+            console.log(err)
+            that.state=REJECTED;
+        }
+        fn(resolve,reject);
+    }
+    */
+
+    /*
+        版本三，现在我们已经知道promise当前所处在的状态了。但是任务完成了需要拿到结果，
+        MyPromise的resolve被调用，那也只是MyPromise知道任务完成，用户并不知道；
+        所以我们需要通过回调告诉用户；
+        这个时候我们需要then方法，用户通过then方法传入的回调函数，
+        MyPromise将成功调用resolve时调用用户传入的回调函数；
+        MyPromise内部需要变量存储回调函数，then方法的作用就是将用户传入的回调函数赋予MyPromise内的变量；
+        所以then方法接受两个参数，一个是成功时的回调，一个是失败时的回调
+    */
+    /*
+    (function(){
+        const PEDNING="pending";//执行状态
+        const RESOLVED='resolved';//以完成；
+        const REJECTED='rejected';//以失败
+
+        function MyPromise(fn){
+            const that=this
+            //初始状态为执行中,pending
+            this.state=PEDNING;
+            //两个储存回调函数的变量
+            this.resolvedCallback;
+            this.rejectedCallback;
+
+            function resolve(value){
+                that.state=RESOLVED;
+                that.resolvedCallback && that.resolvedCallback(value); 
+            }
+            function reject(err){
+                that.state=REJECTED;
+                that.rejectedCallback && that.rejectedCallback(err);
+            }
+            fn(resolve,reject);
+        }
+
+        MyPromise.prototype.then=function(onFulfilled,onRejected){
+            this.resolvedCallback = onFulfilled;
+            this.rejectedCallback = onRejected;
+        }
+
+        new MyPromise((resolve,reject)=>{
+            setTimeout(()=>{
+                resolve('我是结果')
+            },4000);
+        }).then((value)=>{
+            console.log(value)
+        })
+    })()
+    */
+    /*
+        版本四，
+        上面已经和promise差不多了，但是如果我们多次调用then方法呢，是的，只有最后一个then方法里面的回调函数能执行；
+        这我们没办法满足，所以需要改造一波；
+    */
+    (function(){
+
+    const PEDNING="pending";//执行状态
+        const RESOLVED='resolved';//以完成；
+        const REJECTED='rejected';//以失败
+
+        function MyPromise(fn){
+            const that=this
+            //初始状态为执行中,pending
+            this.state=PEDNING;
+            //两个储存回调函数的变量,注意，变成了数组
+            this.resolvedCallbackList=[];
+            this.rejectedCallbackList=[];
+
+            function resolve(value){
+                that.state=RESOLVED;
+                that.resolvedCallbackList && that.resolvedCallbackList.forEach(cbFn =>cbFn(value)); 
+            }
+            function reject(err){
+                that.state=REJECTED;
+                that.rejectedCallbackList && that.rejectedCallbackList.forEach(cbFn =>cbFn(err)); 
+            }
+            fn(resolve,reject);
+        }
+
+        MyPromise.prototype.then=function(onFulfilled,onRejected){
+            this.resolvedCallbackList.push(onFulfilled);
+            this.rejectedCallbackList.push(onRejected);
+             // 这里是为了链式调用，所以要返回this，即myPromise.then().then().then()...
+            return this
+        }
+
+        new MyPromise((resolve,reject)=>{
+            setTimeout(()=>{
+                resolve('经过5秒出现')
+            },5000)
+        }).then((val)=>{
+            console.log(val+'第一次出现的value')
+        }).then((val)=>{
+            console.log(val+'第二次出现的value')
+        })
+    })()
+</script>
+</html>

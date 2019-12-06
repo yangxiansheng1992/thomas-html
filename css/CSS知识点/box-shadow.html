@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .guide-x {
+      text-align: center;
+      padding: 100px 16px;
+      background-color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .guide-overlay {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(transparent, transparent);
+    }
+
+    .guide-overlay-shape {
+      width: 100px;
+      height: 60px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      border-radius: 50%;
+      box-shadow: 0 0 0 9999px rgba(0, 0, 0, .75);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="guide-x">
+    <div class="guide-overlay">
+      <i class="guide-overlay-shape" data-content="发布按钮搬到这里了"></i>
+    </div>
+    <button class="button">发布</button>
+  </div>
+</body>
+
+</html>

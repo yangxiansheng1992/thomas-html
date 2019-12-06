@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>滑动拼图验证码</title>
+  <link rel="stylesheet" href="./index.css">
+  <style>
+    @keyframes wiggle {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      80% {
+        transform: rotate(0deg);
+      }
+
+      85% {
+        transform: rotate(5deg);
+      }
+
+      95% {
+        transform: rotate(-5deg);
+      }
+
+      100% {
+        transform: rotate(0deg);
+      }
+    }
+
+    h1.wiggle {
+      display: inline-block;
+      animation: wiggle 2.5s infinite;
+    }
+
+    h1.wiggle:hover {
+      animation: none;
+    }
+  </style>
+</head>
+
+<body>
+  <h1 class="wiggle">
+    wiggle, wiggle
+  </h1>
+</body>
+
+<script>
+  nextProps.currentIssue.pre_open_number.split(',').forEach(num => (
+    nextProps.redContent.includes(num) ? this.setState({ openBallBg: 'numb-red.png' }) : ''
+  ))
+  nextProps.currentIssue.pre_open_number.split(',').forEach(num => (
+    nextProps.blueContent.includes(num) ? this.setState({ openBallBg: 'numb-blue.png' }) : ''
+  ))
+  nextProps.currentIssue.pre_open_number.split(',').forEach(num => (
+    nextProps.greenContent.includes(num) ? this.setState({ openBallBg: 'numb-green.png' }) : ''
+  ))
+</script>
+
+</html>

@@ -1,0 +1,85 @@
+body {
+  margin: 0px;
+  padding: 0px;
+}
+
+/* 使用径向渐变设置背景颜色 */
+
+html {
+  background-image: radial-gradient(ellipse at center, yellow, black);
+  height: 100%;
+}
+
+.stage {
+  width: 100PX;
+  height: 100PX;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -10em;
+  margin-top: -10em;
+}
+
+.club {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  /* 设置3D转换 */
+  transform-style: preserve-3d;
+  transform: rotateX(-20deg) rotateY(-20deg);
+  /* 动画执行地方 */
+  -webkit-animation: aa 3s ease infinite;
+}
+
+.club div {
+  background-color: rgba(242, 231, 231, 1);
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  position: absolute;
+  box-shadow: 0 0 5em rgba(5, 65, 5, 0.2);
+}
+
+/* 分别创建骰子的六个面 */
+
+.front {
+  transform: translateZ(3em);
+  background-image: radial-gradient(35px at 50px 50px, #F80000, #BE0000 35px, transparent 36px);
+}
+
+.back {
+  transform: translateZ(-3em);
+  background-image: radial-gradient(11px at 30px 20px, #4C4C4C, #2F2F2F 11px, transparent 12px), radial-gradient(11px at 65px 20px, #4C4C4C, #2F2F2F 11px, transparent 12px), radial-gradient(11px at 30px 50px, #4C4C4C, #2F2F2F 11px, transparent 12px), radial-gradient(11px at 30px 80px, #4C4C4C, #2F2F2F 11px, transparent 12px), radial-gradient(11px at 65px 50px, #4C4C4C, #2F2F2F 11px, transparent 12px), radial-gradient(11px at 65px 80px, #4C4C4C, #2F2F2F 11px, transparent 12px);
+}
+
+.left {
+  transform: rotateY(-90deg) translateZ(3em);
+  background-image: radial-gradient(12px at 25px 25px, #4C4C4C, #2F2F2F 12px, transparent 13px), radial-gradient(12px at 25px 75px, #4C4C4C, #2F2F2F 12px, transparent 13px), radial-gradient(12px at 75px 25px, #4C4C4C, #2F2F2F 12px, transparent 13px), radial-gradient(12px at 50px 50px, #F80000, #BE0000 12px, transparent 13px), radial-gradient(12px at 75px 75px, #4C4C4C, #2F2F2F 12px, transparent 13px);
+}
+
+.right {
+  transform: rotateY(90deg) translateZ(3em);
+  background-image: radial-gradient(17px at 25px 25px, #4C4C4C, #2F2F2F 17px, transparent 18px), radial-gradient(17px at 75px 75px, #4C4C4C, #2F2F2F 17px, transparent 18px);
+}
+
+.top {
+  transform: rotateX(90deg) translateZ(3em);
+  background-image: radial-gradient(12px at 25px 25px, #4C4C4C, #2F2F2F 12px, transparent 13px), radial-gradient(12px at 50px 50px, #4C4C4C, #2F2F2F 12px, transparent 13px), radial-gradient(12px at 75px 75px, #4C4C4C, #2F2F2F 12px, transparent 13px);
+}
+
+.buttom {
+  transform: rotateX(-90deg) translateZ(3em);
+  background-image: radial-gradient(12px at 25px 25px, #4C4C4C, #2F2F2F 12px, transparent 13px), radial-gradient(12px at 25px 75px, #4C4C4C, #2F2F2F 12px, transparent 13px), radial-gradient(12px at 75px 25px, #4C4C4C, #2F2F2F 12px, transparent 13px), radial-gradient(12px at 75px 75px, #4C4C4C, #2F2F2F 12px, transparent 13px);
+}
+
+/* 创建动画 */
+
+@-webkit-keyframes aa {
+  from {
+    transform: rotateX(0deg) rotateY(0);
+  }
+  to {
+    transform: rotateX(180deg) rotateY(360deg);
+  }
+  ;
+}

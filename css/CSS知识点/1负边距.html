@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>负边距</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .box {
+      overflow: hidden;
+      border: 1px dashed red;
+      margin-top: 50px;
+      margin-left: 50px;
+    }
+
+    .left,
+    .right {
+      width: 100px;
+      height: 100px;
+      border: 1px solid;
+      float: left;
+    }
+
+    .left {
+      background-color: aqua
+    }
+
+    .right {
+      background-color: coral;
+      margin-left: -50px;
+      margin-top: -50px;
+      margin-bottom: -50px;
+      margin-right: -50px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <div class="left"></div>
+    <div class="right"></div>
+  </div>
+</body>
+<!-- 负边距的效果。注意左右负边距表现并不一致。左为负时，是左移，右为负时，是左拉。上下与左右类似 -->
+
+</html>

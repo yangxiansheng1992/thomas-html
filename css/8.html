@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="icon" type="image/png" href="https://image.zhangxinxu.com/image/blog/201908/favicon-16.png" sizes="16x16">
+  <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+  // function createCounter() {
+  //   let counter = 0
+  //   const myFunction = function () {
+  //     counter = counter + 1
+  //     return counter
+  //   }
+  //   return myFunction
+  // }
+  // const increment = createCounter()
+  // const c1 = increment()
+  // const c2 = increment()
+  // const c3 = increment()
+  // console.log('example increment', c1, c2, c3)
+
+  let c = 4
+  function addX(x) {
+    return function (n) {
+      return n + x
+    }
+  }
+  const addThree = addX(3)
+  let d = addThree(c)
+  console.log('example partial application', d)
+</script>
+
+</html>

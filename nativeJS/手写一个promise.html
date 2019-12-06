@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    function MePromise() {
+      this.callList = [];
+    }
+    MePromise.prototype.then = function (fn) {
+      this.callList.push(fn);
+      return this;
+    }
+    MePromise.prototype.resolve = function (data) {
+      var fn = this.callList.shift();
+      fn && fn(data);
+    }
+    var mp = new MePromise();
+    mp.then(getCity).then(getWeather).then(getSuggestion);
+    mp.resolve();
+
+    function getCity() {
+      setTimeout(function () {
+        mp.resolve('马尼拉');
+      }, 1000);
+    }
+    function getWeather(city) {
+      setTimeout(function () {
+        mp.resolve(city + '晴天');
+      }, 1000);
+    }
+    function getSuggestion(weather) {
+      setTimeout(function () {
+        console.log(weather + '今天天气不错');
+      }, 1000);
+    }
+  </script>
+</body>
+
+</html>

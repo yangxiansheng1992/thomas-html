@@ -1,0 +1,148 @@
+<!Doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>html5 image to base64</title>
+</head>
+<style>
+  #icon {
+    width: 400px;
+    height: 250px;
+  }
+</style>
+
+<body>
+  <!-- <input type="file" id="img_upload" />
+  <textarea id="base64_code" rows="30" cols="360"></textarea>
+  <p id="img_area"></p> -->
+  <img src="" alt="" id="icon">
+</body>
+<script type="text/javascript">
+  // window.onload = function(){ 
+  // // 抓取上传图片，转换代码结果，显示图片的dom
+  // var img_upload=document.getElementById("img_upload");
+  // var base64_code=document.getElementById("base64_code");
+  // var img_area=document.getElementById("img_area");
+  // // 添加功能出发监听事件
+  // img_upload.addEventListener('change',readFile,false);}
+  // function readFile(){
+  //     var file=this.files[0];
+  //     if(!/image\/\w+/.test(file.type)){ 
+  //         alert("请确保文件为图像类型"); 
+  //         return false; 
+  //     }
+  //     var reader=new FileReader();
+  //     reader.readAsDataURL(file);
+  //     reader.onload=function(){
+  //         base64_code.innerHTML = this.result; 
+  //         img_area.innerHTML = '<div>图片img标签展示：</div><img src="'+this.result+'" alt=""/>'; 
+  //     }
+  // }
+  /*
+    function getImgBase64() {
+      var base64 = "";
+      var img = new Image();
+      img.src = "https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwiZxde62-rhAhUKFYgKHbkWCPEQjRx6BAgBEAU&url=https%3A%2F%2Fwww.fotor.com%2Fcn%2Ffeatures%2Fcrop.html&psig=AOvVaw1W0IKDM8B6OfkBZq9VTKc3&ust=1556263499981005";
+      img.onload = function () {
+        base64 = image2Base64(img);
+        alert(base64);
+      }
+    }
+    function image2Base64(img) {
+      var canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, img.width, img.height);
+      var dataURL = canvas.toDataURL("image/png");
+      return dataURL;
+    }
+    console.log(image2Base64('https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwikyfnL3OrhAhVUUN4KHU9RAysQjRx6BAgBEAU&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FTechnological_University_of_the_Philippines&psig=AOvVaw0lIHIu4nBpX3n5W7dQ1Ygc&ust=1556263805535623'))
+    */
+
+  function getImageBase64(img, ext) {
+    var canvas = document.createElement("canvas");   //创建canvas DOM元素，并设置其宽高和图片一样
+    canvas.width = img.width;
+    canvas.height = img.height;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, img.width, img.height); //使用画布画图
+    var dataURL = canvas.toDataURL("image/" + ext);  //返回的是一串Base64编码的URL并指定格式
+    canvas = null; //释放
+    return dataURL;
+  }
+
+  let img_path = 'http://static.runoob.com/images/demo/demo1.jpg';
+  var user_icon = document.getElementById('icon');
+  user_icon.src = img_path; //指定图片路径
+  // user_icon.onload = function () {
+  //   base64 = getImageBase64(user_icon, '.png');    //base64编码
+  //   console.log(base64)
+  // }
+
+  /*
+  *url:网络图片地址
+  *ext：图片格式
+  *callback：回调函数
+  */
+  function getUrlBase64(url, ext, callback) {
+    var canvas = document.createElement("canvas");   //创建canvas DOM元素
+    var ctx = canvas.getContext("2d");
+    var img = new Image;
+    img.crossOrigin = 'Anonymous';
+    img.src = url;
+    img.onload = function () {
+      canvas.height = 60; //指定画板的高度,自定义
+      canvas.width = 85; //指定画板的宽度，自定义
+      ctx.drawImage(img, 0, 0, 60, 85); //参数可自定义
+      var dataURL = canvas.toDataURL("image/" + ext);
+      callback.call(this, dataURL); //回掉函数获取Base64编码
+      canvas = null;
+    };
+  }
+  getUrlBase64(img_path, '.png', function (base64) {
+    console.log(base64);//base64编码值
+  });
+
+
+  img2base64(img, callback) {
+    const getBase64Image = (img) => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, img.width, img.height);
+      const ext = img.src.substring(img.src.lastIndexOf('.') + 1).toLowerCase();
+      const dataURL = canvas.toDataURL(`image/${ext}`);
+      return dataURL;
+    };
+    const image = new Image();
+    image.src = img;
+    image.setAttribute('crossOrigin', 'anonymous');
+    image.onload = () => {
+      const base64 = getBase64Image(image);
+      callback(base64);
+    };
+  };
+
+
+
+
+  convertImgToBase64(url, callback, outputFormat) {
+    let canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+    img.crossOrigin = 'corss';
+    img.onload = () => {
+      canvas.height = img.height;
+      canvas.width = img.width;
+      ctx.drawImage(img, 0, 0);
+      const dataURL = canvas.toDataURL(outputFormat || 'image/png');
+      callback.call(this, dataURL);
+      canvas = null;
+    };
+    img.src = url;
+  }
+</script>
+
+</html>

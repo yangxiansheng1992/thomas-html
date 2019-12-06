@@ -1,0 +1,88 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    html,body{
+      width:100%;
+      height: 100%;
+    }
+    .marquee {
+      overflow: hidden;
+      height: 25px;
+      float: left;
+      white-space: nowrap;
+      font-size: 12px;
+      border: 1px solid;
+      width: 50%;
+      position: relative;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+    }
+    .text{
+      position: absolute;
+      left: 0;
+      top: 0;
+      text-align: center;
+      line-height: 2;
+    }
+  </style>
+  <title>用javascript实现文字无缝平滑循环横向滚动</title>
+</head>
+
+<body>
+  <div id="scrolldv" class="marquee">
+    <span id="contentspan" class="text">1新闻滚动字幕\2新闻滚动字幕\3新闻滚动字幕\4新闻滚动字幕\5新闻滚动字幕\6新闻滚动字幕\7新闻滚动字幕 </span>
+  </div>
+</body>
+<!-- 4新闻滚动字幕\5新闻滚动字幕\6新闻滚动字幕\7新闻滚动字幕 -->
+<script type="text/javascript">
+  // //获取滚动的内容长度
+  // var contentLength = document.getElementById("contentspan").offsetWidth;
+  // //遮罩层长度
+  // document.getElementById("scrolldv").style.width = contentLength + "px";
+  // //内容层长度
+  // document.getElementById("contentspan").style.width = contentLength + "px";
+  // //左留白
+  // document.getElementById("contentspan").style.paddingLeft = contentLength + "px";
+  // //右留白
+  // document.getElementById("contentspan").style.paddingRight = contentLength + "px";
+  // //滚动函数
+  // function Marqpuee() {
+  //   if (scrolldv.scrollLeft >= 2 * contentLength) {
+  //     scrolldv.scrollLeft = 0;
+  //   } else {
+  //     scrolldv.scrollLeft++;
+  //   }
+  // }
+    console.log(document.getElementById("contentspan").clientWidth)
+    console.log(document.getElementById("scrolldv").clientWidth)
+  //定时器
+  // setInterval(Marqpuee, 20);
+
+
+  var marquee=document.getElementById("scrolldv");
+  var marqueeWidth=marquee.clientWidth;
+  var text=document.getElementById('contentspan');
+  var textWidth=text.clientWidth;
+    if(textWidth>=marqueeWidth){
+      var leftWidth=marqueeWidth
+      console.log(-(textWidth+marqueeWidth))
+      setInterval(function(){
+        leftWidth--;
+        text.style.left=leftWidth+'px'
+        if(leftWidth<=-(textWidth+marqueeWidth)){
+          text.style.left=marqueeWidth+'px'
+        }
+      },20)
+    }
+</script>
+
+</html>

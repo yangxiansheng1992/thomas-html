@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>利用层模拟在textarea表单中插入图片</title>
+</head>
+
+<body>
+  <form name="form1" method="post" action="1.asp"
+    οnsubmit="document.getElementByIdx_x('content').value=document.getElementByIdx_x('myDiv').innerHTML">
+    <div style="width:350px;">
+       <img src="zhuangtai/10U01a127.gif" width="40" height="40" class="img1" onClick="fun(this.src);"
+        style="cursor:hand;" />
+       <img src="zhuangtai/10U01aH12.gif" width="40" height="40" class="img1" onClick="fun(this.src);"
+        style="cursor:hand;" />
+       <img src="zhuangtai/10U01b5G0.gif" width="40" height="40" class="img1"  onClick="fun(this.src);"
+        style="cursor:hand;" />
+       <img src="zhuangtai/10U01bO5.gif" width="40" height="40" class="img1" onClick="fun(this.src);"
+        style="cursor:hand;" />
+       <img src="zhuangtai/10U01bS3.gif" width="40" height="40" class="img1" onClick="fun(this.src);"
+        style="cursor:hand;" />
+       <img src="zhuangtai/10U01c029.gif" width="40" height="40" class="img1"  onClick="fun(this.src);"
+        style="cursor:hand;" />
+       <img src="zhuangtai/10U01cM1.gif" width="40" height="40" class="img1" onClick="fun(this.src);"
+        style="cursor:hand;" />
+       <img src="zhuangtai/10U0193a11.gif" width="40" height="40" class="img1" onClick="fun(this.src);"
+        style="cursor:hand;" />
+       <img src="zhuangtai/10U0195L8.gif" width="40" height="40" class="img1"  onClick="fun(this.src);"
+        style="cursor:hand;" />
+       <img src="zhuangtai/10U01921G4.gif" width="40" height="40" class="img1"  onClick="fun(this.src);"
+        style="cursor:hand;" />
+       <img src="zhuangtai/10U0193202.gif" width="40" height="40" class="img1"  onClick="fun(this.src);"
+        style="cursor:hand;" />
+       <img src="zhuangtai/10U0195536.gif" width="40" height="40" class="img1" onClick="fun(this.src);"
+        style="cursor:hand;" />
+       <img src="zhuangtai/10U0196434.gif" width="40" height="40" class="img1"  onClick="fun(this.src);"
+        style="cursor:hand;" />
+       <img src="zhuangtai/10U01946115.gif" width="40" height="40" class="img1"  onClick="fun(this.src);"
+        style="cursor:hand;" />
+       <img src="zhuangtai/10U01960113.gif" width="40" height="40" class="img1"  onClick="fun(this.src);"
+        style="cursor:hand;" />
+       </div>
+     
+            <div id="myDiv"
+      style="width: 300px; height: 100px; border: black 1px solid; font-size:small; line-height:1; overflow:auto;"
+                οnclick="getPos();"    οnkeyup="getPos();"   contenteditable="true">
+                abcdefg</div>
+       <div>
+         <input type="hidden" value="" name="content" id="content">
+         <input type="submit" value="提交" name="submit">
+         </div>
+  </form>
+</body>
+<script language="javascript" type="text/javascript">
+
+  var pos;
+  function getPos() {
+    pos = document.selection.createRange();
+  }
+
+  function fun(str) {
+    if (pos != null) {
+      // pos.text="插入文字内容";
+      pos.pasteHTML("<img src=\"" + str + "\">");
+      //pos.pasteHTML("<br/>文本框控件:<input id='Text1' type='text' />");
+
+      //释放位置
+      pos = null;
+    }
+    else {
+      alert("没有正确选择位置");
+    }
+  }
+
+</script>
+
+</html>

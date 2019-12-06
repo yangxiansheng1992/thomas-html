@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>数据双向绑定</title>
+</head>
+
+<body>
+  <input type="text" name="" id="content">
+  <p id="show-content"></p>
+</body>
+<script>
+  var content = document.getElementById('content');
+  var showContent = document.getElementById('show-content');
+  var obj = {
+    msg: '',
+    age: "19",
+  };
+
+  Object.defineProperty(obj, 'age', {
+    get: function () {
+      return obj;
+    },
+    set: function (newValue) {
+      console.log(newValue)
+      content.value = newValue;
+      showContent.innerHTML = newValue;
+    }
+  })
+  content.addEventListener('keyup', function (e) {
+    obj.age = e.target.value;
+  })
+
+</script>
+
+</html>

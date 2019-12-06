@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+  console.log("start");
+  process.nextTick(() => {
+    console.log("a");
+    setImmediate(() => {
+      console.log("d");
+    });
+
+    new Promise(res => res()).then(() => {
+      console.log("e");
+      process.nextTick(() => {
+        console.log("f");
+      });
+      new Promise(r => {
+        r()
+      })
+        .then(() => {
+          console.log("g");
+        });
+      setTimeout(() => {
+        console.log("h");
+      });
+    });
+
+  });
+
+  setImmediate(() => {
+    console.log("b");
+    process.nextTick(() => {
+      console.log("c");
+    });
+    new Promise(res => res()).then(() => {
+      console.log("i");
+    });
+  });
+  console.log("end");
+</script>
+
+</html>

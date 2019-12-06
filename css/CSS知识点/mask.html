@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .shape-hollow-x {
+      width: 600px;
+      max-width: 100%;
+      height: 300px;
+      background: linear-gradient(yellow, red);
+      position: relative;
+      background: url('../img/沉思.jpg') no-repeat;
+      background-size: 100% auto;
+    }
+
+    .shape-hollow {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      background-color: rgba(0, 0, 0, 0.7);
+      background: url('../img/mm.jpg') no-repeat;
+      background-size: 100% auto;
+      -webkit-mask: no-repeat center;
+      -webkit-mask-image: linear-gradient(red, black), url('../img/star.svg');
+      -webkit-mask-size: cover, 120px 120px;
+      -webkit-mask-composite: exclude;
+      -webkit-mask-composite: source-out;
+      animation: starIn 2s infinite;
+    }
+
+    @keyframes starIn {
+      from {
+        -webkit-mask-size: 100%, 0 0;
+        mask-size: 100%, 0 0;
+      }
+
+      to {
+        -webkit-mask-size: 100%, 500% 500%;
+        mask-size: 100%, 500% 500%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="shape-hollow-x">
+    <i class="shape-hollow"></i>
+  </div>
+</body>
+
+</html>

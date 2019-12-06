@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>判断对象的数据类型</title>
+</head>
+
+<body>
+
+</body>
+<script>
+  // const isType = type => target => `[object ${type}]` === Object.prototype.toString.call(target);
+  //使用 Object.prototype.toString 配合闭包，通过传入不同的判断类型来返回不同的判断函数，一行代码，简洁优雅灵活（注意传入 type 参数时首字母大写）
+
+  function isType(type) {
+    return function isTarget(target) {
+      return `[object ${type}]` === Object.prototype.toString.call(target);
+    }
+  }
+
+  const isArray = isType('Array');
+  console.log(isArray([]));
+
+  const isObject = isType('Object');
+  console.log(isObject({}));
+
+</script>
+
+</html>

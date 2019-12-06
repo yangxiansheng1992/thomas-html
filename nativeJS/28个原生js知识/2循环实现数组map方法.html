@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>循环实现数组map方法</title>
+</head>
+
+<body>
+
+</body>
+<script>
+  let arr = [1, 2, 3, 4, 5];
+  let newArr = arr.map(item => item * 3);
+
+  function setMap(fn) {
+    //通过new Array生成的数组是稀疏数组；
+    // let arr = new Array(this.length);
+    // arr.forEach(element => {
+    //   console.log(element);
+    // });
+    let arrs = Array.prototype.slice.call(this);
+    let aMap = Array(arr.length);
+    for (let i = 0; i < arr.length; i++) {
+      // if (!arrs.hasOwnProperty(i)) continue;
+      // aMap[i] = fn.call(this,arr[i], i, this);
+      aMap[i] = fn(arr[i], i, this);
+    }
+    return aMap;
+  }
+  Array.prototype.setMap = setMap;
+
+  console.log(arr.setMap((item) => item * 3));
+
+
+
+  /*
+    什么是密集数组呢？
+      在java和C语言中，数组是一片连续的存储空间，有着固定的长度。加入数组其实位置是address，长度为n，那么占用的存储空间是address[0],address[1],address[2].......address[n-1]。即数组元素之间是紧密相连的，不存在空隙。
+    什么是稀疏数组呢？
+        与密集数组相反，javascript并不强制要求数组元素是紧密相连的，即允许间隙的存在。
+    总结：密集数组和稀疏数组都是真数组；不要使用稀疏数组；
+  */
+
+  /*
+  console.log(newArr);
+  //稀疏数组
+  var b = new Array(3);
+  console.log(b);
+  b.map(function (v, i) {
+    console.log(v);
+    console.log(i)
+  })
+  //将稀疏数组转为密集数组
+  var c = Array.apply(null, b);
+  console.log(c);
+  c.map(function (v, i) {
+    console.log(v);
+    console.log(i)
+  })
+*/
+</script>
+
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding: 0;
+        }
+        html,body{
+            height: 100%;
+        }
+        div.parent{
+            text-align: center;
+            border:1px solid seagreen;
+            height: 50%;
+        }
+        div.parent::before{
+            content: "";
+            height: 100%;
+            width: 0;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        div.child{
+            width: 100px;
+            height: 50px;
+            display: inline-block;
+            vertical-align: middle;
+            background-color: sandybrown;
+        }
+        /* 转换为行内块状元素可以水平居中，通过父元素的伪类设置高度100%，
+        并转为行内快装元素，通过设置vertical-align: middle；实现垂直居中 */
+    </style>
+</head>
+<body>
+    <div class="parent">
+        <div class="child">少时诵诗书所</div>
+    </div>
+</body>
+</html>

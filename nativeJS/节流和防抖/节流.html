@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <button id="btn">我是按钮，重复点击</button>
+</body>
+<script>
+  function throttle(fn, wait = 500) {
+    if (typeof fn != "function") {
+      // 必须传入函数
+      throw new TypeError("Expected a function")
+    }
+
+    // 定时器
+    let timer,
+      // 是否是第一次调用
+      firstTime = true;
+
+    // 这里不能用箭头函数，是为了绑定上下文
+    return function (...args) {
+      // 第一次
+      if (firstTime) {
+        firstTime = false;
+        fn.apply(this, args);
+      }
+
+      if (timer) {
+        return;
+      } else {
+        timer = setTimeout(() => {
+          clearTimeout(timer);
+          timer = null;
+          fn.apply(this, args);
+        }, wait)
+      }
+
+    }
+  }
+  var btn = document.getElementById('btn');
+  // 单独使用，限制快速连续不停的点击，按钮只会有规律的每500ms点击有效
+  btn.addEventListener('click', throttle(() => {
+    console.count('执行次数')
+  }, 2000))
+  // btn.addEventListener('click', function () {
+  //   console.count('执行次数')
+  // })
+</script>
+
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="box" contenteditable>sssssssssss</div>
+  <div class="box" clearable>sssssssssss</div>
+</body>
+<script>
+
+  /*
+  async function async1() {
+    console.log("async1 start 2");
+    await async2();
+    console.log("async1 end 4");
+  }
+
+  async function async2() {
+    console.log("async2 3");
+  }
+
+  console.log("script start 1");
+
+  setTimeout(function () {
+    console.log("setTimeout 5");
+  }, 0);
+  async1();
+  */
+
+  /*
+  new Promise(function (resolve) {
+    console.log("promise1  1");
+    resolve();
+  }).then(function () {
+    console.log("promise2  3");
+  });
+  console.log("script end  2");
+  */
+
+  //手写一个promise；
+
+  function Promise(excutor) {//创造一个构造函数
+    let self = this
+    self.status = 'pending'
+    self.value = null
+    self.reason = null
+    self.onFulfilledCallbacks = []
+    self.onRejectedCallbacks = []
+
+    function resolve(value) {
+      if (self.status === 'pending') {
+        self.value = value
+        self.status = 'fulfilled'
+        self.onFulfilledCallbacks.forEach(item => item())
+      }
+    }
+
+    function reject(reason) {
+      if (self.status === 'pending') {
+        self.reason = reason
+        self.status = 'rejected'
+        self.onRejectedCallbacks.forEach(item => item())
+      }
+    }
+    try {
+      excutor(resolve, reject)
+    } catch (err) {
+      reject(err)
+    }
+  }
+
+
+  Promise.prototype.then = function (onFulfilled, onRejected) {
+    onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : function (data) { resolve(data) }
+    onRejected = typeof onRejected === 'function' ? onRejected : function (err) { throw err }
+    let self = this
+    if (self.status === 'fulfilled') {
+      return new Promise((resolve, reject) => {
+        try {
+          let x = onFulfilled(self.value)
+          if (x instanceof Promise) {
+            x.then(resolve, reject)
+          } else {
+            resolve(x)
+          }
+        } catch (err) {
+          reject(err)
+        }
+      })
+    }
+    if (self.status === 'rejected') {
+      return new Promise((resolve, reject) => {
+        try {
+          let x = onRejected(self.reason)
+          if (x instanceof Promise) {
+            x.then(resolve, reject)
+          } else {
+            resolve(x)
+          }
+        } catch (err) {
+          reject(err)
+        }
+      })
+    }
+    if (self.status === 'pending') {
+      return new Promise((resolve, reject) => {
+        self.onFulfilledCallbacks.push(() => {
+          let x = onFulfilled(self.value)
+          if (x instanceof Promise) {
+            x.then(resolve, reject)
+          } else {
+            resolve(x)
+          }
+        })
+        self.onRejectedCallbacks.push(() => {
+          let x = onRejected(self.reason)
+          if (x instanceof Promise) {
+            x.then(resolve, reject)
+          } else {
+            resolve(x)
+          }
+        })
+      })
+    }
+  }
+
+  Promise.prototype.catch = function (fn) {
+    return this.then(null, fn)
+  }
+
+
+</script>
+
+</html>

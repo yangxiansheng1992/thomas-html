@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+  function Person(name, age, job) {
+    this.name = name;
+    this.age = age;
+    this.job = job;
+    this.sayName = function () {
+      console.log(this.name);
+    }
+  }
+  var person1 = new Person('yang', 18, 'doctor');
+  var person2 = new Person('thomas', 19, 'it');
+  //定律一：每个对象都有__prpto__属性，但只有函数对象才有prototype属性，person1和person2都是Person的实例，两个实例都有一个construction属性（构造函数）属性，该属性指向Person（构造函数）；
+  console.log(person1.constructor === Person);//true
+  console.log(Person.prototype.constructor === Person);//true;
+
+  //定律二：js在创建对象（不论普通对象还是函数对象）的时候，都有一个__prpto__的内置属性，用于指向创建它的构造函数的原型对象。
+  console.log(person1.__proto__ === Person.prototype);//true
+  console.log('分界线====================》')
+  var obj1 = {};
+  //等同于
+  var obj2 = new Object();
+  //obj是构造函数Object的一个实例。所以
+  console.log(obj1.constructor === Object);//true
+  console.log(obj2.__proto__ === Object.prototype);//true;
+
+  console.log('测试=============>');
+  console.log(person1.__proto__);//Person.prototype
+  console.log(Person.__proto__);//Function.prototype  因为Person的构造函数 === Function
+  console.log(Person.prototype.__proto__);//Person.prototype 是一个普通对象，我们无需关注它有哪些属性，只要记住它是一个普通对象。因为一个普通对象的构造函数 === Object所以 Person.prototype.__proto__ === Object.prototype
+  console.log(Object.__proto__);//Function.prototype
+  console.log(Object.prototype__proto__);
+  console.log('检验分界线===============')
+  //任何一个对象的__proto__都指向该对象构造函数的原型对象；
+  console.log(person1.__proto__ === Person.prototype);//true
+  //每个对象都有一个constructor，他指向的是改对象的构造函数
+  console.log(person1.constructor === Person);//true
+
+  console.log(person1.__proto__ === person1.constructor.prototype);//true
+
+  console.log(Person.prototype);
+
+
+  {
+    (() => {
+      for (let i = 1; i < 26; i += 1) {
+        return <GrabEnvelope className="red-bag" onClick={this.grabEnvelope}></GrabEnvelope>
+      }
+    })();
+  }
+
+</script>
+
+</html>

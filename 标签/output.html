@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <form oninput="result.value=parseInt(a.value)+parseInt(b.value)">
+        <input type="range" name="b" value="50" /> +
+        <input type="number" name="a" value="10" /> =
+        <output name="result"></output>
+    </form>
+<!-- 与当前标签有关联的form（从属的表单）。该属性的值必须是当前文档内的表单元素的ID。
+如果未指明该属性，output标签必须是一个form的后代标签。该属性的用处在于可以让output
+标签脱离form标签，存在于一个网页文档的任意位置 -->
+    <!-- HTML <output> 标签表示计算或用户操作的结果。 -->
+</body>
+</html>

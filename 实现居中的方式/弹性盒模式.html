@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding: 0;
+        }
+        html,body{
+            height: 100%;
+        }
+        /* 弹性盒布局，父元素子元素都不用定宽高 */
+        /* div.parent{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border:1px solid springgreen;
+        }
+        div.child{
+            background-color: thistle;
+        } */
+        /* 网格布局  父元素子元素都不用定宽高*/
+        /* div.parent {
+            display: grid;
+            border:1px solid springgreen;
+            height: 100px;
+        }
+        div.child {
+            justify-self: center;
+            align-self: center;
+            background-color: thistle;
+        } */
+
+    /* 弹性盒和margin的结合，父元素子元素都不用定宽高  */
+        /* div.parent{
+            display:flex;
+        }
+        div.child{
+            margin:auto;
+            background-color: thistle;
+        } */
+        /* 父元素的表格布局，子元素占满父元素，内容居中 */
+        /* div.parent {
+            display: table;
+            border:1px solid springgreen;
+        }
+        div.child {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+            background-color: thistle;
+        } */
+        /* table-cell布局，父元素宽高确定，子元素不用确定宽高 */
+        /* .parent {
+            display: table-cell;
+            height: 200px;
+            width: 200px;
+            background-color: orange;
+            text-align: center;
+            vertical-align: middle;
+        }
+        .child {
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            background-color: blue;
+        } */
+        /* 
+            总结：一般在需要转换为table或table-cell的都用的很少，
+            因为改变了父元素的display，如果有多个子元素，就显的不太实用；
+         */
+    </style>
+</head>
+<body>
+    <div class="parent">
+        <div class="child">少时诵诗书所</div>
+      </div>
+</body>
+</html>
